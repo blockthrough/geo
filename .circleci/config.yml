@@ -2,20 +2,20 @@
 # See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
+orbs:
+  go: circleci/go@1.8.0
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
   unit-test:
-    docker:
-      - image: cimg/base:stable
     steps:
       - checkout
-      - run:
-          name: "install dagger"
-          command : curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.6.2 sh
+      # - run:
+      #     name: "install dagger"
+      #     command : curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.6.2 sh
       - run:
           name: "unit test"
-          command: ./bin/dagger run go run ci/main.go
+          command: go run ci/dagger.go
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
