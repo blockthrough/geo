@@ -7,16 +7,13 @@ version: 2.1
 jobs:
   unit-test:
     build:
-    machine:
-      image: ubuntu-2004:2023.07.1
+      docker:
+        image: golang:1.21-alpine3.18
     steps:
       - checkout
       - run:
-          name: "install dagger"
-          command : curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.6.2 sh
-      - run:
-          name: "unit test"
-          command: ./bin/dagger run go run ci/dagger.go
+          name: unit test
+          command: go test -v
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
