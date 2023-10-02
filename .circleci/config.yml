@@ -2,19 +2,15 @@
 # See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
-orbs:
-  docker: circleci/docker@2.4.0
-
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
   unit-test:
-    executor: docker/docker
+    build:
+    machine:
+      image: ubuntu-2004:2023.07.1
     steps:
       - checkout
-      - run:
-          name: dagger daemon running
-          command: sudo systemctl status docker
       - run:
           name: "install dagger"
           command : curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.6.2 sh
