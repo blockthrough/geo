@@ -1,0 +1,30 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+# See: https://circleci.com/docs/configuration-reference
+version: 2.1
+parameters:
+  job_docker_image:
+    type: string 
+    default: "golang:1.21.1-alpine3.18"
+
+orbs:
+  codecov: codecov/codecov@3.2.5
+  go: circleci/go@1.7.3
+
+# Define a job to be invoked later in a workflow.
+# See: https://circleci.com/docs/configuration-reference/#jobs
+jobs:
+  unit-test:
+    docker:
+      - image: << pipeline.parameters.job_docker_image >>
+    steps:
+      - checkout
+      - run:
+          name: "unit test"
+          command: "hey test"
+
+# Orchestrate jobs using workflows
+# See: https://circleci.com/docs/configuration-reference/#workflows
+workflows:
+  test:
+    jobs:
+      - unit-test
