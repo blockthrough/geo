@@ -17,6 +17,7 @@ func main() {
 	client, err := dagger.Connect(ctx, dagger.WithLogOutput(os.Stderr))
 	if err != nil {
 		log.Println(err)
+		os.Exit(1)
 		return
 	}
 
