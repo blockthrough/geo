@@ -9,17 +9,17 @@ orbs:
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
   unit-test:
-  executor:
-    name: go/default
-  
-  steps:
-    - checkout
-      # - run:
-      #     name: "install dagger"
-      #     command : curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.6.2 sh
-    - run:
-        name: "unit test"
-        command: go run ci/dagger.go
+    executor:
+      name: go/default
+
+    steps:
+      - checkout
+        # - run:
+        #     name: "install dagger"
+        #     command : curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.6.2 sh
+      - run:
+          name: "unit test"
+          command: go run ci/dagger.go
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
