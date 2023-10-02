@@ -13,6 +13,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: dagger daemon running
+          command: sudo systemctl status docker
+      - run:
           name: "install dagger"
           command : curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.6.2 sh
       - run:
