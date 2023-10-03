@@ -3,7 +3,7 @@
 
 [![codecov](https://codecov.io/gh/blockthrough/geo/branch/maximind-geo/graph/badge.svg?token=DK6KZBFHML)](https://codecov.io/gh/blockthrough/geo)
 
-The library currently supports reads MaxMind GeoIP2 database and provide a thin decorator/helper function on the returned data for easy retrival and deriving on top of the geo info provided by MaxMind. It also provides a normalized way to represent the geo info in standard ISO format including unknown geo info.
+The library currently supports reads MaxMind GeoIP2 database and provide a thin decorator/helper function on the returned data for easy retrival and deriving on top of the geo info provided by MaxMind. It also provides a normalized way to represent the geo info in standard ISO format including the scenario of unknown.
 
 The implemenation of this library is based upon other 2 open source repositories:
 
