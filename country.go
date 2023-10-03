@@ -1,12 +1,8 @@
 package geo
 
 import (
-	"github.com/biter777/countries"
 	"github.com/oschwald/geoip2-golang"
 )
-
-const UnknownAlpha2Code = "ZZ"  // ZZ is the commonly recoginized country/continient code for unknown, as specified in ISO alpha2
-const UnknownAlpha3Code = "ZZZ" // ZZZ is derived from "ZZ" to represent 3 letter country/continent code for unknown, as specified in ISO alpha3
 
 // Country - a type definition on geoip2.Country data struct while providing heloer functions to retrieve certain data in convinent way and additional country data maxmind db does not provide
 // user is expected not to directly modify it
@@ -36,12 +32,7 @@ func (c Country) CountryAlpha3Code() string {
 		return UnknownAlpha3Code
 	}
 
-	alpha3 := countries.ByName(c.CountryAlpha2Code()).Alpha3()
-	if alpha3 == "Unknown" {
-		return UnknownAlpha3Code
-	}
-
-	return alpha3
+	return CountryAlpha2CodeToAlpha3Code(c.CountryAlpha2Code())
 }
 
 // IsUnknown - helper function to determine if the country is unknown

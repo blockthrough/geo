@@ -15,7 +15,7 @@ The library is visioned to support more features related to processing of the ge
 
 
 ## Features
-1. Support easy look up for geo information from MaxMind DB using ip string.
+1. Support easy lookup for geo information from MaxMind DB using ip string.
 2. Support both alpha2 country code and alpha2 country code.
 3. Support any `io.Reader` for user to provide the MaxMind mmdb file.
 4. Provide default return value of `ZZ` and `ZZZ` as specified in ISO standard if country is unknown.

@@ -8,11 +8,11 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-//go:embed assets/maximind/*.mmdb
+//go:embed test/MaxMind-DB/test-data/*.mmdb
 var embedFS embed.FS
 
 const (
-	maxmindCountryTestDB string = "assets/maximind/GeoIP2-Country-Test.mmdb" // test database, only covers NA, EU, AS continents
+	maxmindCountryTestDB string = "test/MaxMind-DB/test-data/GeoIP2-Country-Test.mmdb" // test database, only covers NA, EU, AS continents
 )
 
 type countryLookupTest struct {

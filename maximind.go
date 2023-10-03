@@ -48,3 +48,8 @@ func (m *Reader) CountryByIPString(ip string) (*Country, error) {
 
 	return m.Country(parsedIP)
 }
+
+// GeoIP2 - expose the wrapped reader for access richer data
+func (m *Reader) GeoIP2() *geoip2.Reader {
+	return m.reader
+}
