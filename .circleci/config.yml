@@ -15,11 +15,11 @@ jobs:
     steps:
       - checkout  
       - run:
-          name: unit test
-          command: go test -v -coverprofile=cov.out -coverpkg=./
-      - run:
           name: sync submodule
           command: git submodule sync
+      - run:
+          name: unit test
+          command: go test -v -coverprofile=cov.out -coverpkg=./
       - when:
           condition:
             equal: [master, << pipeline.git.branch >>]
