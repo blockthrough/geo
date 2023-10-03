@@ -15,11 +15,14 @@ jobs:
     steps:
       - checkout  
       - run:
-          name: ls
-          command: ls -la
-      - run:
           name: sync submodule
           command: git submodule sync --recursive
+      - run:
+          name: ls
+          command: ls -la test
+      - run:
+          name: ls
+          command: ls -la test/MaxMind-DB
       - run:
           name: unit test
           command: go test -v -coverprofile=cov.out -coverpkg=./
