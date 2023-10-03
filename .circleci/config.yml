@@ -2,6 +2,10 @@
 # See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
+orbs:
+  codecov: codecov/codecov@3.2.5
+  go: circleci/go@1.7.3
+  
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
 jobs:
@@ -12,7 +16,13 @@ jobs:
       - checkout  
       - run:
           name: unit test
-          command: go test -v
+          command: go test -v -coverprofile=cov.out -coverpkg=./
+      - when:
+          condition:
+            equal: [master, maximind-geo]
+          steps:
+            - codecov/upload:
+                file: cov.out
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
