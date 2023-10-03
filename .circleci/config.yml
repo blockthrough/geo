@@ -12,11 +12,10 @@ jobs:
   unit-test:
     docker:
       - image: golang:1.21-alpine3.18
+    resource_class: small
     steps:
       - checkout  
-      - run:
-          name: sync submodule
-          command: git submodule sync
+      - codecov/checkout-with-submodules
       - run:
           name: unit test
           command: go test -v -coverprofile=cov.out -coverpkg=./
