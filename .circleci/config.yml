@@ -15,7 +15,7 @@ jobs:
     resource_class: small
     steps:
       - checkout  
-      - codecov/checkout-with-submodules
+      - git/checkout-with-submodules
       - run:
           name: unit test
           command: go test -v -coverprofile=cov.out -coverpkg=./
