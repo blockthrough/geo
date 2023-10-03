@@ -12,14 +12,9 @@ const UnknownAlpha3Code = "ZZZ" // ZZZ is derived from "ZZ" to represent 3 lette
 // user is expected not to directly modify it
 type Country geoip2.Country
 
-// IsEmpty - check if the country is an zero-value struct
-func (c Country) IsEmpty() bool {
-	return c.Country.GeoNameID == 0
-}
-
 // CountryAlpha2Code - a helper function to retrieve 2-letter ISO code for country from maxmind DB, if the country is found, the code will be "ZZ"
 func (c Country) CountryAlpha2Code() string {
-	if c.IsEmpty() || len(c.Country.IsoCode) != 2 {
+	if c.isEmpty() || len(c.Country.IsoCode) != 2 {
 		return UnknownAlpha2Code
 	}
 
@@ -28,7 +23,7 @@ func (c Country) CountryAlpha2Code() string {
 
 // ContinentCode - a helper function to retrieve 2-letter ISO code for country from maxmind DB
 func (c Country) ContinentCode() string {
-	if c.IsEmpty() || len(c.Country.IsoCode) != 2 {
+	if c.isEmpty() || len(c.Country.IsoCode) != 2 {
 		return UnknownAlpha2Code
 	}
 
@@ -37,7 +32,7 @@ func (c Country) ContinentCode() string {
 
 // CountryAlpha3Code - return 3-letter ISO code for country
 func (c Country) CountryAlpha3Code() string {
-	if c.IsEmpty() || len(c.Country.IsoCode) != 2 {
+	if c.isEmpty() || len(c.Country.IsoCode) != 2 {
 		return UnknownAlpha3Code
 	}
 
@@ -52,4 +47,9 @@ func (c Country) CountryAlpha3Code() string {
 // IsUnknown - helper function to determine if the country is unknown
 func (c Country) IsUnknown() bool {
 	return c.CountryAlpha2Code() == UnknownAlpha2Code
+}
+
+// isEmpty - check if the country has an id associated with MaxMindDB, true means a valid entry, false means MaxMindDB does not find it
+func (c Country) isEmpty() bool {
+	return c.Country.GeoNameID == 0
 }
