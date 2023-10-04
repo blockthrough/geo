@@ -36,6 +36,45 @@ Since it is not an open-sourced repository yet, use `GOPRIVATE` to make sure go 
 
 package main 
 
+import (
+    "embed"
+	"fmt"
+)
+
+////go:embed <your_maxmind_db>
+var embedFS embed.FS
+
+func main() {
+
+    file, err := embedFS.Open(maxmindCountryTestDB)
+	if err != nil {
+		t.Fatal(fmt.Errorf("embedFS.Open: %w", err))
+	}
+
+	maximind, err := NewMaxMindReader(file)
+	if err != nil {
+		t.Fatal(fmt.Errorf("NewMaxMindn: %w", err))
+	}
+
+    // check if it is test DB
+    fmt.Sprintf("test db?: %t",maxmind.IsUsingTestDB())
+
+    // you can pass ipv4 or ipv6 
+    country, err := maxmind.Country("127.0.0.1")
+    if err != nil {
+        fmt.Error("err:%s",err)
+    }
+
+    fmt.Sprintf("unknown country: %s", country.isUnknown())) // is he country unknown?
+    fmt.Sprintf("country code: %s", country.CountryAlpha2Code()) // 2-letter country code
+    fmt.Sprintf("country 3-letter code: %s", country.CountryAlpha3Code()) // 3-letter country code
+    fmt.Sprintf("continent code: %s", country.ContinentCode()) // contintue code
+
+
+    // you can also use adapter directly if we want to have alpha3 code
+    fmt.Sprintf("country 3-letter code", CountryAlpha2CodeToAlpha3Code(country.CountryAlpha2Code()))
+}
+
 
 ```
 
