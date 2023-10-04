@@ -1,7 +1,6 @@
 # Geo Information Library For Go
-[![CircleCI](https://circleci.com/gh/blockthrough/geo.svg?style=svg&circle-token=b0554d26f90621f9996755fe9fd6665e74cabcbe)](<https://app.circleci.com/pipelines/github/blockthrough/geo?branch=maximind-geo>)
+[![CircleCI](https://circleci.com/gh/blockthrough/geo.svg?style=svg&circle-token=b0554d26f90621f9996755fe9fd6665e74cabcbe)](<https://app.circleci.com/pipelines/github/blockthrough/geo?branch=master>)
 
-[![codecov](https://codecov.io/gh/blockthrough/geo/branch/maximind-geo/graph/badge.svg?token=DK6KZBFHML)](https://codecov.io/gh/blockthrough/geo)
 
 The library currently supports reads MaxMind GeoIP2 database and provide a thin decorator/helper function on the returned data for easy retrival and deriving on top of the geo info provided by MaxMind. It also provides a normalized way to represent the geo info in standard ISO format including the scenario of unknown.
 
@@ -38,15 +37,14 @@ package main
 
 import (
     "embed"
-	"fmt"
+    "fmt"
 )
 
-////go:embed <your_maxmind_db>
+////go:embed <your_maxmind_db_file_path>
 var embedFS embed.FS
 
 func main() {
-
-    file, err := embedFS.Open(maxmindCountryTestDB)
+    file, err := embedFS.Open("<your_maxmind_db_file_path>")
 	if err != nil {
 		t.Fatal(fmt.Errorf("embedFS.Open: %w", err))
 	}
@@ -74,7 +72,6 @@ func main() {
     // you can also use adapter directly if we want to have alpha3 code
     fmt.Sprintf("country 3-letter code", CountryAlpha2CodeToAlpha3Code(country.CountryAlpha2Code()))
 }
-
 
 ```
 

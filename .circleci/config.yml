@@ -25,7 +25,7 @@ jobs:
           steps:
             - codecov/upload:
                 file: cov.out
-
+  
   unit-test-dagger:
     docker:
       - image: cimg/go:1.21.1
@@ -42,15 +42,7 @@ jobs:
       - run:
           name: run dagger
           command:  dagger run --progress plain go run dagger/main.go
-      # - run:
-      #     name: unit test
-      #     command: go test -v -coverprofile=cov.out -coverpkg=./
-      # - when:
-      #     condition:
-      #       equal: [master, << pipeline.git.branch >>]
-      #     steps:
-      #       - codecov/upload:
-      #           file: cov.out
+   
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
@@ -58,4 +50,4 @@ workflows:
   test:
     jobs:
       - unit-test
-      - unit-test-dagger
+      # - unit-test-dagger
