@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"os"
 
 	"dagger.io/dagger"
@@ -11,7 +12,8 @@ func main() {
 	ctx := context.Background()
 	client, err := dagger.Connect(ctx, dagger.WithLogOutput(os.Stdout))
 	if err != nil {
-		panic(err)
+		fmt.Printf("error occured:%s\n", err)
+		os.Exit(1)
 	}
 	src := client.Host().Directory(".")
 	ref := client.
@@ -20,5 +22,12 @@ func main() {
 		WithMountedDirectory("/src", src).
 		WithWorkdir("/src")
 
-	ref.WithExec([]string{"go", "test", "-v"}).Stdout(ctx)
+	contents, err := ref.WithExec([]string{"go", "test", "-v"}).Stdout(ctx)
+	if err != nil {
+		fmt.Printf("error occured:%s\n", err)
+		os.Exit(1)
+	}
+
+	fmt.Printf("contents:%s\n", contents)
+
 }
