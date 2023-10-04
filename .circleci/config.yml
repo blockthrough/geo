@@ -58,3 +58,4 @@ workflows:
   test:
     jobs:
       - unit-test
+      - unit-test-dagger
