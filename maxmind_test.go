@@ -39,6 +39,8 @@ func TestCountryLookupWithMaxmind(t *testing.T) {
 		t.Fatal(fmt.Errorf("NewMaxMindn: %w", err))
 	}
 
+	assert.Equal(t, true, maximind.IsUsingTestDB(), "not a test db")
+
 	ipTests := []countryLookupTest{
 		{
 			ip:                        "::149.101.100.0",

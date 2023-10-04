@@ -4,12 +4,13 @@ import (
 	"fmt"
 	"io"
 	"net"
+	"strings"
 
 	"github.com/oschwald/geoip2-golang"
 )
 
 type Reader struct {
-	reader *geoip2.Reader
+	*geoip2.Reader
 }
 
 func NewMaxMindReader(r io.Reader) (*Reader, error) {
@@ -23,15 +24,24 @@ func NewMaxMindReader(r io.Reader) (*Reader, error) {
 		return nil, fmt.Errorf("maxminddb.FromBytes: %w", err)
 	}
 
-	return &Reader{reader: reader}, nil
+	return &Reader{Reader: reader}, nil
+}
+
+func NewMaxMind(b []byte) (*Reader, error) {
+	reader, err := geoip2.FromBytes(b)
+	if err != nil {
+		return nil, fmt.Errorf("maxminddb.FromBytes: %w", err)
+	}
+
+	return &Reader{Reader: reader}, nil
 }
 
 func (m *Reader) Close() {
-	m.reader.Close()
+	m.Reader.Close()
 }
 
 func (m *Reader) Country(ip net.IP) (*Country, error) {
-	record, err := m.reader.Country(ip)
+	record, err := m.Reader.Country(ip)
 	if err != nil {
 		return nil, fmt.Errorf("fail to retrieve country with ip:%s, err:%w", ip, err)
 	}
@@ -49,7 +59,11 @@ func (m *Reader) CountryByIPString(ip string) (*Country, error) {
 	return m.Country(parsedIP)
 }
 
-// GeoIP2 - expose the wrapped reader for access richer data
-func (m *Reader) GeoIP2() *geoip2.Reader {
-	return m.reader
+func (m *Reader) IsUsingTestDB() bool {
+	desc, ok := m.Reader.Metadata().Description["en"]
+	if !ok {
+		return false
+	}
+
+	return strings.Contains(desc, "Test Database")
 }

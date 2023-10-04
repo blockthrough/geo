@@ -17,12 +17,6 @@ jobs:
       - checkout  
       - git/checkout-with-submodules
       - run:
-          name: ls
-          command: ls -la test
-      - run:
-          name: ls
-          command: ls -la test/MaxMind-DB
-      - run:
           name: unit test
           command: go test -v -coverprofile=cov.out -coverpkg=./
       - when:
@@ -31,6 +25,32 @@ jobs:
           steps:
             - codecov/upload:
                 file: cov.out
+
+  unit-test-dagger:
+    docker:
+      - image: cimg/go:1.21.1
+    resource_class: small
+    steps:
+      - checkout  
+      - git/checkout-with-submodules
+      - setup_remote_docker:
+          version: 20.10.2
+          docker_layer_caching: true
+      - run:
+          name: Install Dagger CLI
+          command: cd /usr/local && { curl -L https://dl.dagger.io/dagger/install.sh | sudo sh; cd -; }
+      - run:
+          name: run dagger
+          command:  dagger run go run dagger/main.go
+      # - run:
+      #     name: unit test
+      #     command: go test -v -coverprofile=cov.out -coverpkg=./
+      # - when:
+      #     condition:
+      #       equal: [master, << pipeline.git.branch >>]
+      #     steps:
+      #       - codecov/upload:
+      #           file: cov.out
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
