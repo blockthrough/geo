@@ -5,7 +5,7 @@ import (
 )
 
 // Country - a type definition on geoip2.Country data struct while providing heloer functions to retrieve certain data in convinent way and additional country data maxmind db does not provide
-// user is expected not to directly modify it
+// user is expected not to directly modify it.
 type Country geoip2.Country
 
 // CountryAlpha2Code - a helper function to retrieve 2-letter ISO code for country from maxmind DB, if the country is found, the code will be "ZZ"
