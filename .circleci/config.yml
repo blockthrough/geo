@@ -34,14 +34,14 @@ jobs:
       - checkout  
       - git/checkout-with-submodules
       - setup_remote_docker:
-          version: 20.10.2
+          version: 20.10.14
           docker_layer_caching: true
       - run:
           name: Install Dagger CLI
           command: cd /usr/local && { curl -L https://dl.dagger.io/dagger/install.sh | sudo sh; cd -; }
       - run:
           name: run dagger
-          command:  dagger run go run dagger/main.go
+          command:  dagger run --progress plain go run dagger/main.go
       # - run:
       #     name: unit test
       #     command: go test -v -coverprofile=cov.out -coverpkg=./
