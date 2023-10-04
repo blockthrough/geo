@@ -42,12 +42,17 @@ jobs:
       - run:
           name: run dagger
           command:  dagger run --progress plain go run ci/main.go
+      - when:
+          condition:
+            equal: [master, << pipeline.git.branch >> ]
+          steps:
+            - codecov/upload:
+                file: cov.out
    
-
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
   test:
     jobs:
       - unit-test
-      # - unit-test-dagger
+      - unit-test-dagger 
