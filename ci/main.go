@@ -29,6 +29,7 @@ func main() {
 		os.Exit(1)
 	}
 
+	// retrieve the coverage file
 	ok, err := ref.File("./cov.out").Export(ctx, "./cov.out")
 	if err != nil {
 		fmt.Printf("export coverage file :%s\n", err)
@@ -40,12 +41,4 @@ func main() {
 		os.Exit(1)
 	}
 
-	// contents, err := ref.WithExec([]string{"go", "test", "-v", "-coverprofile=cov.out", "-coverpkg=./"}).Stdout(ctx)
-
-	// if err != nil {
-	// 	fmt.Printf("go test :%s\n", err)
-	// 	os.Exit(1)
-	// }
-
-	// fmt.Printf("contents:%s\n", contents)
 }
