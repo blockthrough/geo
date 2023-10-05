@@ -25,9 +25,6 @@ jobs:
       - run:
           name: unit test
           command:  dagger run --progress plain go run ci/main.go
-      - run:
-          name: check the coverage file
-          command: cat ./cov.out
       - when:
           condition:
             equal: [master, << pipeline.git.branch >> ]
