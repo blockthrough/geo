@@ -24,7 +24,7 @@ jobs:
           command: cd /usr/local && { curl -L https://dl.dagger.io/dagger/install.sh | sudo sh; cd -; }
       - run:
           name: unit test
-          command:  dagger run --progress plain go run ci/main.go
+          command:  dagger run --progress plain go run ci/main.go --cov_file cov.out
       - when:
           condition:
             equal: [master, << pipeline.git.branch >> ]
