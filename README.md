@@ -40,9 +40,10 @@ package main
 import (
     "embed"
     "fmt"
+    "github.com/blockthrough/geo"
 )
 
-////go:embed <your_maxmind_db_file_path>
+// go:embed <your_maxmind_db_file_path>
 var embedFS embed.FS
 
 func main() {
@@ -51,7 +52,7 @@ func main() {
 		t.Fatal(fmt.Errorf("embedFS.Open: %w", err))
 	}
 
-	maximind, err := NewMaxMindReader(file)
+	maximind, err := geo.NewMaxMindReader(file)
 	if err != nil {
 		t.Fatal(fmt.Errorf("NewMaxMindn: %w", err))
 	}
@@ -74,7 +75,7 @@ func main() {
 
 
     // you can also use adapter directly if we want to have alpha3 code
-    fmt.Sprintf("country 3-letter code", CountryAlpha2CodeToAlpha3Code(country.CountryAlpha2Code()))
+    fmt.Sprintf("country 3-letter code", geo.CountryAlpha2CodeToAlpha3Code(country.CountryAlpha2Code()))
 }
 
 ```
