@@ -2,7 +2,7 @@
 [![CircleCI](https://circleci.com/gh/blockthrough/geo.svg?style=svg&circle-token=b0554d26f90621f9996755fe9fd6665e74cabcbe)](<https://app.circleci.com/pipelines/github/blockthrough/geo?branch=master>)
 
 
-The library currently supports reads MaxMind GeoIP2 database and provide a thin decorator/helper function on the returned data for easy retrival and decoration on top of the geo info provided by MaxMind. It also provides a normalized way to represent the geo info in standard ISO format for the scenario of unknown.
+The library currently supports reads MaxMind GeoIP2 database and provide a thin decorator/helper function on the returned data for easy retrival and decoration on top of the geo info provided by MaxMind. It also provides a normalized way to represent the geo info in standard ISO format the scenario of unknown.
 
 The implemenation of this library is based upon other 2 open source repositories:
 
@@ -55,10 +55,12 @@ func main() {
 		t.Fatal(fmt.Errorf("NewMaxMindn: %w", err))
 	}
 
-    // check if it is test DB
-    fmt.Sprintf("test db?: %t",maxmind.IsUsingTestDB())
+    // check the meta information of the database
+    fmt.Sprintf("test db: %t",maxmind.IsTestDB())
+    fmt.Sprintf("db build time: %s",maxmind.BuildTimestamp())
+    fmt.Sprintf("db version: %s",maxmind.Version())
 
-    // you can pass ipv4 or ipv6 
+    // you can pass ipv4 or ipv6  address
     country, err := maxmind.Country("127.0.0.1")
     if err != nil {
         fmt.Error("err:%s",err)

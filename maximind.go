@@ -5,10 +5,12 @@ import (
 	"io"
 	"net"
 	"strings"
+	"time"
 
 	"github.com/oschwald/geoip2-golang"
 )
 
+// Reader - a thin wrapper which provides helper function to parse information provided by embedded geoip2.Reader
 type Reader struct {
 	*geoip2.Reader
 }
@@ -59,11 +61,22 @@ func (m *Reader) CountryByIPString(ip string) (*Country, error) {
 	return m.Country(parsedIP)
 }
 
-func (m *Reader) IsUsingTestDB() bool {
+func (m *Reader) IsTestDB() bool {
 	desc, ok := m.Reader.Metadata().Description["en"]
 	if !ok {
 		return false
 	}
 
 	return strings.Contains(desc, "Test Database")
+}
+
+// BuildTimestamp - the timestamp when the MaxMind DB is built
+func (m *Reader) BuildTimestamp() time.Time {
+	return time.Unix(int64(m.Metadata().BuildEpoch), 0)
+}
+
+// Version - the opinionated semanic version for the underlying MaxMind DB in the format of v<major_version>.<minor_version>
+func (m *Reader) Version() string {
+	meta := m.Metadata()
+	return fmt.Sprintf("v%d.%d", meta.BinaryFormatMajorVersion, meta.BinaryFormatMinorVersion)
 }

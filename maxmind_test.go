@@ -34,12 +34,12 @@ func TestCountryLookupWithMaxmind(t *testing.T) {
 		t.Fatal(fmt.Errorf("embedFS.Open: %w", err))
 	}
 
-	maximind, err := NewMaxMindReader(file)
+	maxmind, err := NewMaxMindReader(file)
 	if err != nil {
 		t.Fatal(fmt.Errorf("NewMaxMindn: %w", err))
 	}
 
-	assert.Equal(t, true, maximind.IsUsingTestDB(), "not a test db")
+	assert.Equal(t, true, maxmind.IsTestDB(), "not a test db")
 
 	ipTests := []countryLookupTest{
 		{
@@ -88,7 +88,7 @@ func TestCountryLookupWithMaxmind(t *testing.T) {
 	}
 
 	for _, test := range ipTests {
-		country, err := maximind.CountryByIPString(test.ip)
+		country, err := maxmind.CountryByIPString(test.ip)
 
 		if test.expectedError {
 			assert.NotNil(t, err, "expected error")
