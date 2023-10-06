@@ -4,7 +4,7 @@ import (
 	"github.com/oschwald/geoip2-golang"
 )
 
-// Country - a type definition on geoip2.Country data struct while providing helper functions to retrieve certain data in convinent way and additional country data maxmind db does not provide
+// Country - a type definition on geoip2.Country data struct while providing helper functions to retrieve certain data in convenient way and additional country data maxmind db does not provide
 // user is expected not to directly modify it.
 type country geoip2.Country
 

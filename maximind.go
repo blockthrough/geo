@@ -15,33 +15,31 @@ type Reader struct {
 	*geoip2.Reader
 }
 
-func NewMaxMindReader(r io.Reader) (*Reader, error) {
+// NewMaxMindFromReader - create a new MaxMind Reader from io.Reader
+func NewMaxMindFromReader(r io.Reader) (*Reader, error) {
 	data, err := io.ReadAll(r)
 	if err != nil {
 		return nil, fmt.Errorf("io.ReadAll: %w", err)
 	}
 
-	reader, err := geoip2.FromBytes(data)
-	if err != nil {
-		return nil, fmt.Errorf("maxminddb.FromBytes: %w", err)
-	}
-
-	return &Reader{Reader: reader}, nil
+	return NewMaxMindFromBytes(data)
 }
 
-func NewMaxMind(b []byte) (*Reader, error) {
+// NewMaxMindFromBytes - create a new MaxMind Reader from bytes
+func NewMaxMindFromBytes(b []byte) (*Reader, error) {
 	reader, err := geoip2.FromBytes(b)
 	if err != nil {
 		return nil, fmt.Errorf("maxminddb.FromBytes: %w", err)
 	}
-
 	return &Reader{Reader: reader}, nil
 }
 
-func (m *Reader) Close() {
-	m.Reader.Close()
+// Close - close the reader
+func (m *Reader) Close() error {
+	return m.Reader.Close()
 }
 
+// Country - return an country object by passing a net.IP struct
 func (m *Reader) Country(ip net.IP) (*country, error) {
 	record, err := m.Reader.Country(ip)
 	if err != nil {
@@ -52,6 +50,7 @@ func (m *Reader) Country(ip net.IP) (*country, error) {
 	return &c, nil
 }
 
+// CountryByIPString - return an country object by passing an IPV4/IPV6 string
 func (m *Reader) CountryByIPString(ip string) (*country, error) {
 	parsedIP := net.ParseIP(ip)
 	if parsedIP == nil {
@@ -61,6 +60,7 @@ func (m *Reader) CountryByIPString(ip string) (*country, error) {
 	return m.Country(parsedIP)
 }
 
+// IsTestDB - check if the underling DB is a test example, useful for sanity checks
 func (m *Reader) IsTestDB() bool {
 	desc, ok := m.Reader.Metadata().Description["en"]
 	if !ok {
@@ -75,7 +75,7 @@ func (m *Reader) BuildTimestamp() time.Time {
 	return time.Unix(int64(m.Metadata().BuildEpoch), 0)
 }
 
-// Version - the opinionated semanic version for the underlying MaxMind DB in the format of v<major_version>.<minor_version>
+// Version - the opinionated semantic version for the underlying MaxMind DB in the format of v<major_version>.<minor_version>
 func (m *Reader) Version() string {
 	meta := m.Metadata()
 	return fmt.Sprintf("v%d.%d", meta.BinaryFormatMajorVersion, meta.BinaryFormatMinorVersion)

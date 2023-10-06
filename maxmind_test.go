@@ -34,7 +34,7 @@ func TestCountryLookupWithMaxmind(t *testing.T) {
 		t.Fatal(fmt.Errorf("embedFS.Open: %w", err))
 	}
 
-	maxmind, err := NewMaxMindReader(file)
+	maxmind, err := NewMaxMindFromReader(file)
 	if err != nil {
 		t.Fatal(fmt.Errorf("NewMaxMindn: %w", err))
 	}
@@ -102,6 +102,8 @@ func TestCountryLookupWithMaxmind(t *testing.T) {
 		assert.Equal(t, test.expectedUnknown, country.IsUnknown(), "expected country does not match unknown expectation")
 		assert.Equal(t, test.expectedCountryCode, country.CountryAlpha2Code(), "mismatch country code")
 		assert.Equal(t, test.expectedCountryAlpha3Code, country.CountryAlpha3Code(), "mismatch country alpha3 code")
-		assert.Equal(t, test.expectedContinentCode, country.ContinentCode(), "mismatch contininent code")
+		assert.Equal(t, test.expectedContinentCode, country.ContinentCode(), "mismatch continent code")
 	}
+
+	assert.Nil(t, nil, maxmind.Close(), "close the reader should not generate an error")
 }
