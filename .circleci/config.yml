@@ -11,7 +11,7 @@ orbs:
 jobs:
   unit-test:
     docker:
-      - image: cimg/go:1.21.1
+      - image: cgr.dev/chainguard/go:latest
     resource_class: small
     steps:
       - checkout  
