@@ -11,7 +11,7 @@ orbs:
 jobs:
   unit-test:
     docker:
-      - image: golang:1.21.1-alpine3.18
+      - image: cimg/go:1.21.1
     resource_class: small
     steps:
       - checkout  
