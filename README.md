@@ -74,7 +74,7 @@ func main() {
     fmt.Sprintf("continent code: %s", country.ContinentCode()) // 2-letter continent code
 
 
-    // you can also use adapter directly if we want to have alpha3 code
+    // you can also use adapter function directly if you want to get alpha3 code
     fmt.Sprintf("country 3-letter code", geo.CountryAlpha2CodeToAlpha3Code(country.CountryAlpha2Code()))
 }
 
