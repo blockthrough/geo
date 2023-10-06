@@ -8,7 +8,7 @@ import (
 )
 
 type countryTestCase struct {
-	country Country
+	country country
 
 	expectedCountryCode       string
 	expectedCountryAlpha3Code string
@@ -20,7 +20,7 @@ func TestCountry(t *testing.T) {
 
 	tests := []countryTestCase{
 		{
-			country:                   Country(geoip2.Country{}),
+			country:                   country(geoip2.Country{}),
 			expectedCountryCode:       "ZZ",
 			expectedCountryAlpha3Code: "ZZZ",
 			expectedContinentCode:     "ZZ",
@@ -28,7 +28,7 @@ func TestCountry(t *testing.T) {
 			expectedUnknown: true,
 		},
 		{
-			country: Country(geoip2.Country{
+			country: country(geoip2.Country{
 				Country: struct {
 					Names             map[string]string "maxminddb:\"names\""
 					IsoCode           string            "maxminddb:\"iso_code\""

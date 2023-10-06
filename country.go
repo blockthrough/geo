@@ -6,10 +6,10 @@ import (
 
 // Country - a type definition on geoip2.Country data struct while providing helper functions to retrieve certain data in convinent way and additional country data maxmind db does not provide
 // user is expected not to directly modify it.
-type Country geoip2.Country
+type country geoip2.Country
 
 // CountryAlpha2Code - a helper function to retrieve 2-letter ISO code for country from maxmind DB, if the country is unknown, the code will be "ZZ"
-func (c Country) CountryAlpha2Code() string {
+func (c country) CountryAlpha2Code() string {
 	if c.isCountryAlpha2CodeValid() {
 		return c.Country.IsoCode
 	}
@@ -18,7 +18,7 @@ func (c Country) CountryAlpha2Code() string {
 }
 
 // ContinentCode - a helper function to retrieve 2-letter ISO code for country from maxmind DB, if the country is known, the code will be "ZZ"
-func (c Country) ContinentCode() string {
+func (c country) ContinentCode() string {
 	if c.isCountryAlpha2CodeValid() {
 		return c.Continent.Code
 	}
@@ -27,7 +27,7 @@ func (c Country) ContinentCode() string {
 }
 
 // CountryAlpha3Code - return 3-letter ISO code for country, if the country is unknown, the code will be "ZZZ"
-func (c Country) CountryAlpha3Code() string {
+func (c country) CountryAlpha3Code() string {
 	if c.isCountryAlpha2CodeValid() {
 		return CountryAlpha2CodeToAlpha3Code(c.CountryAlpha2Code())
 	}
@@ -36,15 +36,15 @@ func (c Country) CountryAlpha3Code() string {
 }
 
 // IsUnknown - helper function to determine if the country is unknown
-func (c Country) IsUnknown() bool {
+func (c country) IsUnknown() bool {
 	return c.CountryAlpha2Code() == UnknownAlpha2Code
 }
 
 // isEmpty - check if the country has an id associated with MaxMindDB, true means a valid entry, false means no valid entry
-func (c Country) isEmpty() bool {
+func (c country) isEmpty() bool {
 	return c.Country.GeoNameID == 0
 }
 
-func (c Country) isCountryAlpha2CodeValid() bool {
+func (c country) isCountryAlpha2CodeValid() bool {
 	return !c.isEmpty() && len(c.Country.IsoCode) == 2
 }

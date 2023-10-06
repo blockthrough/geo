@@ -42,17 +42,17 @@ func (m *Reader) Close() {
 	m.Reader.Close()
 }
 
-func (m *Reader) Country(ip net.IP) (*Country, error) {
+func (m *Reader) Country(ip net.IP) (*country, error) {
 	record, err := m.Reader.Country(ip)
 	if err != nil {
 		return nil, fmt.Errorf("fail to retrieve country with ip:%s, err:%w", ip, err)
 	}
 
-	c := Country(*record)
+	c := country(*record)
 	return &c, nil
 }
 
-func (m *Reader) CountryByIPString(ip string) (*Country, error) {
+func (m *Reader) CountryByIPString(ip string) (*country, error) {
 	parsedIP := net.ParseIP(ip)
 	if parsedIP == nil {
 		return nil, fmt.Errorf("invalid ip: %s", ip)
