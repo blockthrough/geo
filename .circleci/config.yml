@@ -11,7 +11,7 @@ orbs:
 jobs:
   unit-test:
     docker:
-      - image: cgr.dev/chainguard/go:latest
+      - image: golang:1.21.1-alpine3.18
     resource_class: small
     steps:
       - checkout  
