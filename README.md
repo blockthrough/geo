@@ -24,17 +24,13 @@ The library is visioned to support more features related to processing of the ge
 
 ## Installation
 ```
-GOPRIVATE=github.com/blockthrough get github.com/blockthrough/geo
+go get github.com/blockthrough/geo@v1.0.0
 ```
-
-Since it is not an open-sourced repository yet, use `GOPRIVATE` to make sure go installer knows it is a private module. You also need to make sure you have correct git access to the private module.
-
 
 ## How To Use
 
 ### Read Maxmind DB and LookUp Geo With IP
 ```go
-
 package main 
 
 import (
@@ -47,37 +43,35 @@ import (
 var embedFS embed.FS
 
 func main() {
-    file, err := embedFS.Open("<your_maxmind_db_file_path>")
+	file, err := embedFS.Open("<your_maxmind_db_file_path>")
 	if err != nil {
-		t.Fatal(fmt.Errorf("embedFS.Open: %w", err))
+		return
 	}
 
-	maximind, err := geo.NewMaxMindReader(file)
+	maxmind, err := geo.NewMaxMindFromReader(file)
 	if err != nil {
-		t.Fatal(fmt.Errorf("NewMaxMindn: %w", err))
+		return
 	}
 
-    // check the meta information of the database
-    fmt.Sprintf("test db: %t",maxmind.IsTestDB())
-    fmt.Sprintf("db build time: %s",maxmind.BuildTimestamp())
-    fmt.Sprintf("db version: %s",maxmind.Version())
+	// check the meta information of the database
+	fmt.Sprintf("test db: %t", maxmind.IsTestDB())
+	fmt.Sprintf("db build time: %s", maxmind.BuildTimestamp())
+	fmt.Sprintf("db version: %s", maxmind.Version())
 
-    // you can pass ipv4 or ipv6  address
-    country, err := maxmind.Country("127.0.0.1")
-    if err != nil {
-        fmt.Error("err:%s",err)
-    }
+	// you can pass ipv4 or ipv6  address
+	country, err := maxmind.CountryByIPString("127.0.0.1")
+	if err != nil {
+		return 
+	}
 
-    fmt.Sprintf("unknown country: %s", country.IsUnknown())) // is the country unknown?
-    fmt.Sprintf("country code: %s", country.CountryAlpha2Code()) // 2-letter country code
-    fmt.Sprintf("country 3-letter code: %s", country.CountryAlpha3Code()) // 3-letter country code
-    fmt.Sprintf("continent code: %s", country.ContinentCode()) // 2-letter continent code
+	fmt.Sprintf("unknown country: %s", country.IsUnknown())               // is the country unknown?
+	fmt.Sprintf("country code: %s", country.CountryAlpha2Code())          // 2-letter country code
+	fmt.Sprintf("country 3-letter code: %s", country.CountryAlpha3Code()) // 3-letter country code
+	fmt.Sprintf("continent code: %s", country.ContinentCode())            // 2-letter continent code
 
-
-    // you can also use adapter function directly if you want to get alpha3 code
-    fmt.Sprintf("country 3-letter code", geo.CountryAlpha2CodeToAlpha3Code(country.CountryAlpha2Code()))
+	// you can also use adapter function directly if you want to get alpha3 code
+	fmt.Sprintf("country 3-letter code", geo.CountryAlpha2CodeToAlpha3Code(country.CountryAlpha2Code()))
 }
-
 ```
 
 
