@@ -17,7 +17,7 @@ jobs:
       - checkout  
       - git/checkout-with-submodules
       - setup_remote_docker:
-          version: 20.10.14
+          version: default
           docker_layer_caching: true
       - run:
           name: Install Dagger CLI
@@ -25,12 +25,8 @@ jobs:
       - run:
           name: unit test
           command:  dagger run --progress plain go run ci/main.go --cov_file cov.out
-      - when:
-          condition:
-            equal: [master, << pipeline.git.branch >> ]
-          steps:
-            - codecov/upload:
-                file: cov.out
+      - codecov/upload:
+          file: cov.out
    
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
